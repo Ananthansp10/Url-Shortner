@@ -12,6 +12,8 @@ import {
   getUserUrlHistory,
   redirectUrl,
 } from "@/services/urlServices";
+import { logout } from "@/slice/userSlice";
+import { useDispatch } from "react-redux";
 
 interface ShortenedUrl {
   id: string;
@@ -30,6 +32,8 @@ export default function HomePage() {
   const [toast, setToast] = useState("");
   const router = useRouter();
   const userId = useSelector((state: RootState) => state.user?.id);
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     getUserUrlHistory(userId ?? "").then((response) => {
@@ -101,8 +105,15 @@ export default function HomePage() {
     return url.length > maxLength ? url.substring(0, maxLength) + "..." : url;
   };
 
+  useEffect(()=>{
+    if(!userId){
+      router.push('/auth/user/signin')
+    }
+  },[])
+
   function logoutUser() {
     userLogout().then((response) => {
+      dispatch(logout())
       localStorage.removeItem("userDetails");
       toastAlert.success(response.data.message);
       router.push("/auth/user/signin");
@@ -149,7 +160,7 @@ export default function HomePage() {
             <div className="flex items-center space-x-4">
               <div className="hidden sm:flex items-center space-x-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
                 <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm font-semibold">JD</span>
+                  {/* <span className="text-white text-sm font-semibold">JD</span> */}
                 </div>
                 <span className="text-white text-sm font-medium">
                   {userName}

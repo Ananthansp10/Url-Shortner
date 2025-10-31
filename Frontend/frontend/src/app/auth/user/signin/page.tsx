@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Lock, Link2, ArrowRightCircle } from "lucide-react";
 import Link from "next/link";
 import { loginUser } from "@/services/authServices";
@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { login } from "@/slice/userSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
@@ -21,12 +23,20 @@ export default function SignIn() {
   const [showSuccess, setShowSuccess] = useState(false);
   const dispatch = useDispatch();
 
+  const userId = useSelector((state:RootState)=>state.user?.id)
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const router = useRouter();
+
+  useEffect(()=>{
+    if(userId){
+      router.push('/user/dashboard')
+    }
+  })
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

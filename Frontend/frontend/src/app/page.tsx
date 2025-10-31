@@ -1,7 +1,9 @@
 "use client";
 
+import { RootState } from "@/store";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Link2Icon = () => (
   <svg
@@ -115,6 +117,14 @@ export default function Home() {
   };
 
   const router = useRouter()
+
+  const userId = useSelector((state:RootState)=>state.user?.id)
+
+  useEffect(()=>{
+    if(userId){
+      router.push('/user/dashboard')
+    }
+  },[])
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-indigo-50 via-white to-purple-50">
