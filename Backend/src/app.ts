@@ -9,10 +9,11 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
+const frontendUrl = process.env.FRONT_END_URL ?? ''
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [frontendUrl],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),

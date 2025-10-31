@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Link2Icon = () => (
@@ -113,6 +114,8 @@ export default function Home() {
     }
   };
 
+  const router = useRouter()
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       {/* Animated Background Elements */}
@@ -133,11 +136,11 @@ export default function Home() {
           </span>
         </div>
         <div className="flex items-center space-x-4">
-          <button className="px-4 py-2 text-gray-700 hover:text-indigo-600 transition-colors duration-200 flex items-center space-x-2">
+          <button onClick={()=>router.push('/auth/user/signin')} className="px-4 py-2 text-gray-700 hover:text-indigo-600 transition-colors duration-200 flex items-center space-x-2">
             <LogInIcon />
             <span className="hidden sm:inline">Login</span>
           </button>
-          <button className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200 flex items-center space-x-2">
+          <button onClick={()=>router.push('/auth/user/signup')} className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200 flex items-center space-x-2">
             <UserPlusIcon />
             <span className="hidden sm:inline">Register</span>
           </button>
