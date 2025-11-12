@@ -30,6 +30,12 @@ export class UrlServices implements IUrlServices {
       const isUrlExist = await this._urlRepo.findUrlByUserId(
         new mongoose.Types.ObjectId(userId),
       );
+      const isLongUrlExist = isUrlExist?.urls.find(
+        (url) => url.longUrl == longUrl,
+      );
+      if (isLongUrlExist) {
+        throw new CustomError("Url already exist", 409);
+      }
       if (isUrlExist) {
         await this._urlRepo.addUrl(new mongoose.Types.ObjectId(userId), {
           longUrl: longUrl,

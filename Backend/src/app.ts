@@ -9,7 +9,7 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-const frontendUrl = process.env.FRONT_END_URL ?? ''
+const frontendUrl = process.env.FRONT_END_URL ?? "";
 
 app.use(
   cors({
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/", commonRouter);
+app.use("/api", commonRouter);
 app.use("/api/user", userRouter);
 app.use("/api/url", urlRouter);
 

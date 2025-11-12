@@ -9,11 +9,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import {
   generateShortUrl,
-  getUserUrlHistory,
-  redirectUrl,
+  getUserUrlHistory
 } from "@/services/urlServices";
 import { logout } from "@/slice/userSlice";
 import { useDispatch } from "react-redux";
+import ProtectedPage from '@/components/ProtectedPage'
 
 interface ShortenedUrl {
   id: string;
@@ -72,7 +72,12 @@ export default function HomePage() {
       toastAlert.success(response.data.message);
       setIsShortening(false);
       setShowResult(true);
-    });
+    }).catch((error)=>{
+      toastAlert.error(error.response.data.message)
+      setIsShortening(false);
+      setShowResult(false)
+      setUrl('')
+    })
   };
 
   const copyToClipboard = (text: string) => {
@@ -127,7 +132,8 @@ export default function HomePage() {
   const userName = useSelector((state: RootState) => state.user?.userName);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-900 relative overflow-hidden">
+    <ProtectedPage>
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-900 relative overflow-hidden">
       {/* Animated Background Blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
@@ -159,9 +165,9 @@ export default function HomePage() {
 
             <div className="flex items-center space-x-4">
               <div className="hidden sm:flex items-center space-x-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center">
-                  {/* <span className="text-white text-sm font-semibold">JD</span> */}
-                </div>
+                {/* <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-semibold">JD</span>
+                </div> */}
                 <span className="text-white text-sm font-medium">
                   {userName}
                 </span>
@@ -304,5 +310,6 @@ export default function HomePage() {
         </div>
       </div>
     </div>
+    </ProtectedPage>
   );
 }

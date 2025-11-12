@@ -14,13 +14,11 @@ export const verifyToken = (
     const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET as string;
     const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET as string;
     if (!accessToken) {
-      res
-        .status(STATUS_CODE.INVALID_DATA)
-        .json({
-          success: false,
-          message: ERROR_MESSAGES.TOKEN_MISSING,
-          isUnAuth: true,
-        });
+      res.status(STATUS_CODE.INVALID_DATA).json({
+        success: false,
+        message: ERROR_MESSAGES.TOKEN_MISSING,
+        isUnAuth: true,
+      });
       return;
     }
     jwt.verify(
@@ -33,13 +31,11 @@ export const verifyToken = (
         if (err) {
           if (err.name == "TokenExpiredError") {
             if (!refreshToken) {
-              res
-                .status(STATUS_CODE.INVALID_DATA)
-                .json({
-                  success: false,
-                  message: ERROR_MESSAGES.TOKEN_MISSING,
-                  isUnAuth: true,
-                });
+              res.status(STATUS_CODE.INVALID_DATA).json({
+                success: false,
+                message: ERROR_MESSAGES.TOKEN_MISSING,
+                isUnAuth: true,
+              });
               return;
             }
             jwt.verify(
@@ -51,13 +47,11 @@ export const verifyToken = (
               ) => {
                 if (err) {
                   if (err.name == "TokenExpiredError") {
-                    res
-                      .status(STATUS_CODE.INVALID_DATA)
-                      .json({
-                        success: false,
-                        message: ERROR_MESSAGES.TOKEN_EXPIRED,
-                        isUnAuth: true,
-                      });
+                    res.status(STATUS_CODE.INVALID_DATA).json({
+                      success: false,
+                      message: ERROR_MESSAGES.TOKEN_EXPIRED,
+                      isUnAuth: true,
+                    });
                     return;
                   }
                 }
@@ -84,12 +78,10 @@ export const verifyToken = (
     );
   } catch (error) {
     console.log(error);
-    return res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({
-        success: false,
-        message: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
-        isUnAuth: true,
-      });
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
+      isUnAuth: true,
+    });
   }
 };

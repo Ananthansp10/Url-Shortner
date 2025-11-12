@@ -27,11 +27,12 @@ export class UrlController {
         res
           .status(error.statusCode)
           .json({ success: false, message: error.message });
-      }
+      }else{
       res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
         success: false,
         message: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
       });
+    }
     }
   }
 
@@ -75,12 +76,10 @@ export class UrlController {
       );
       res.redirect(result);
     } catch (error) {
-      res
-        .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-        .json({
-          success: false,
-          message: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
-        });
+      res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        message: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
+      });
     }
   }
 }
